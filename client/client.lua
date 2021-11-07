@@ -134,3 +134,9 @@ Citizen.CreateThread(function()
         end
     end
 end)
+
+function DisplayHelpAlert(showstring)
+    BeginTextCommandDisplayHelp('STRING');
+    AddTextComponentSubstringPlayerName(showstring);
+    EndTextCommandDisplayHelp(0, 0, 1, -1);
+end
