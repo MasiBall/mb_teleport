@@ -7,9 +7,9 @@ AddEventHandler('mb_teleport:client:receiveLocations', function(fetchserver)
 end)
 
 Citizen.CreateThread(function()
-    while positions == {} do
+    while teleports == {} do
         TriggerServerEvent('mb_teleport:server:sendLocations')
-        print('DEBUG: Positions sent')
+        print('DEBUG: Teleports sent')
         Wait(2500)
     end
 end)
@@ -30,7 +30,7 @@ Citizen.CreateThread(function()
                     DrawMarker(Config.MarkerType, Position, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
                     sleep = 0
                     if distance < Config.MarkerSize.x then
-                        DisplayHelpNotification('Press ~INPUT_PICKUP~ to teleport')
+                        DisplayHelpNotification(Config.NotificationText)
                         if IsControlJustReleased(0, Config.KeyToTeleport) then
                             if IsPedInAnyVehicle(player, false) then
                                 local playerVeh = GetVehiclePedIsUsing(playerPed)
@@ -82,7 +82,7 @@ Citizen.CreateThread(function()
                     DrawMarker(Config.MarkerType, TargetPos, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
                     sleep = 0
                     if distance < Config.MarkerSize.x then
-                        DisplayHelpNotification('Press ~INPUT_PICKUP~ to teleport')
+                        DisplayHelpNotification(Config.NotificationText)
                         if IsControlJustReleased(0, Config.KeyToTeleport) then
                             if IsPedInAnyVehicle(player, false) then
                                 local playerVeh = GetVehiclePedIsUsing(playerPed)

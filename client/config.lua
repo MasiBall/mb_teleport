@@ -1,6 +1,6 @@
 Config = {}
 
-Config.Locale = 'en' -- Locale - Locales can be found from locales folder
+Config.NotificationText = 'Press ~INPUT_PICKUP~ to teleport'
 Config.KeyToTeleport = 38 -- Key to go through teleport
 
 -- Marker Stuff
