@@ -17,5 +17,5 @@ local serverconfig = {
 
 RegisterServerEvent('mb_teleport:server:sendLocations')
 AddEventHandler('mb_teleport:server:sendLocations', function()
-    TriggerClientEvent('mb_teleport:client:sendLocations', source, serverconfig)
+    TriggerClientEvent('mb_teleport:client:receiveLocations', source, serverconfig)
 end)
