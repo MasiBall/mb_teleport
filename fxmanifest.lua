@@ -1,5 +1,5 @@
 fx_version 'cerulean'
-games { 'gta5' }
+game 'gta5'
 author 'MasiBall'
 description 'Simple standalone teleport resource. Works with and without vehicle'
 
