@@ -7,11 +7,9 @@ AddEventHandler('mb_teleport:client:receiveLocations', function(fetchserver)
 end)
 
 Citizen.CreateThread(function()
-    while teleports == {} do
-        TriggerServerEvent('mb_teleport:server:sendLocations')
-        print('DEBUG: Teleports sent')
-        Wait(2500)
-    end
+    TriggerServerEvent('mb_teleport:server:sendLocations')
+    print('DEBUG: Teleports sent')
+    Wait(2500)
 end)
 
 Citizen.CreateThread(function()
