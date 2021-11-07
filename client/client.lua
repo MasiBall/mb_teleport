@@ -9,7 +9,6 @@ end)
 Citizen.CreateThread(function()
     TriggerServerEvent('mb_teleport:server:sendLocations')
     print('DEBUG: Teleports sent')
-    Wait(2500)
 end)
 
 Citizen.CreateThread(function()
@@ -18,7 +17,7 @@ Citizen.CreateThread(function()
         local playerPed = PlayerPedId()
         local playerCoords = GetEntityCoords(playerPed)
         for k,v in pairs(teleports) do
-            local Position, TargetPos, Heading, TargetHeading, hidden = v.Position, v.TargetPosition, v.Heading, v.TargetHeading, v.hidden
+            local Position, TargetPos, Heading, TargetHeading, hidden, oneWay = v.Position, v.TargetPosition, v.Heading, v.TargetHeading, v.hidden, v.oneWay
 
             local distance = #(playerCoords - Position)
             local distancetotarget = #(playerCoords - TargetPos)
@@ -30,9 +29,9 @@ Citizen.CreateThread(function()
                     if distance < Config.MarkerSize.x then
                         DisplayHelpNotification(Config.NotificationText)
                         if IsControlJustReleased(0, Config.KeyToTeleport) then
-                            if IsPedInAnyVehicle(player, false) then
+                            if IsPedInAnyVehicle(playerPed, true) then
                                 local playerVeh = GetVehiclePedIsUsing(playerPed)
-                                SetEntityCoords(playerVeh, Position)
+                                SetEntityCoords(playerVeh, TargetPos)
                                 SetEntityHeading(playerVeh, Heading)
                                 FreezeEntityPosition(playerVeh, true)
                                 Wait(100)
@@ -40,7 +39,7 @@ Citizen.CreateThread(function()
                             else
                                 DoScreenFadeOut(1000)
                                 Wait(2000)
-                                SetEntityCoords(playerPed, Position)
+                                SetEntityCoords(playerPed, TargetPos)
                                 SetEntityHeading(playerPed, Heading)
                                 FreezeEntityPosition(playerPed, true)
                                 DoScreenFadeIn(1000)
@@ -53,9 +52,9 @@ Citizen.CreateThread(function()
                     if distance < Config.MarkerSize.x then
                         sleep = 0
                         if IsControlJustReleased(0, Config.KeyToTeleport) then
-                            if IsPedInAnyVehicle(player, false) then
+                            if IsPedInAnyVehicle(playerPed, true) then
                                 local playerVeh = GetVehiclePedIsUsing(playerPed)
-                                SetEntityCoords(playerVeh, Position)
+                                SetEntityCoords(playerVeh, TargetPos)
                                 SetEntityHeading(playerVeh, Heading)
                                 FreezeEntityPosition(playerVeh, true)
                                 Wait(100)
@@ -63,7 +62,7 @@ Citizen.CreateThread(function()
                             else
                                 DoScreenFadeOut(1000)
                                 Wait(2000)
-                                SetEntityCoords(playerPed, Position)
+                                SetEntityCoords(playerPed, TargetPos)
                                 SetEntityHeading(playerPed, Heading)
                                 FreezeEntityPosition(playerPed, true)
                                 DoScreenFadeIn(1000)
@@ -75,16 +74,16 @@ Citizen.CreateThread(function()
                 end
             end
 
-            if distancetotarget < Config.MarkerDrawDistance then
+            if distancetotarget < Config.MarkerDrawDistance and oneWay ~= true then
                 if not hidden then
                     DrawMarker(Config.MarkerType, TargetPos, 0, 0, 0, 0, 0, 0, Config.MarkerSize.x, Config.MarkerSize.y, Config.MarkerSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
                     sleep = 0
-                    if distance < Config.MarkerSize.x then
+                    if distancetotarget < Config.MarkerSize.x then
                         DisplayHelpNotification(Config.NotificationText)
                         if IsControlJustReleased(0, Config.KeyToTeleport) then
-                            if IsPedInAnyVehicle(player, false) then
+                            if IsPedInAnyVehicle(playerPed, true) then
                                 local playerVeh = GetVehiclePedIsUsing(playerPed)
-                                SetEntityCoords(playerVeh, TargetPos)
+                                SetEntityCoords(playerVeh, Position)
                                 SetEntityHeading(playerVeh, TargetHeading)
                                 FreezeEntityPosition(playerVeh, true)
                                 Wait(100)
@@ -92,7 +91,7 @@ Citizen.CreateThread(function()
                             else
                                 DoScreenFadeOut(1000)
                                 Wait(2000)
-                                SetEntityCoords(playerPed, TargetPos)
+                                SetEntityCoords(playerPed, Position)
                                 SetEntityHeading(playerPed, TargetHeading)
                                 FreezeEntityPosition(playerPed, true)
                                 DoScreenFadeIn(1000)
@@ -102,12 +101,12 @@ Citizen.CreateThread(function()
                         end
                     end
                 else
-                    if distance < Config.MarkerSize.x then
+                    if distancetotarget < Config.MarkerSize.x then
                         sleep = 0
                         if IsControlJustReleased(0, Config.KeyToTeleport) then
-                            if IsPedInAnyVehicle(player, false) then
+                            if IsPedInAnyVehicle(playerPed, true) then
                                 local playerVeh = GetVehiclePedIsUsing(playerPed)
-                                SetEntityCoords(playerVeh, TargetPos)
+                                SetEntityCoords(playerVeh, Position)
                                 SetEntityHeading(playerVeh, TargetHeading)
                                 FreezeEntityPosition(playerVeh, true)
                                 Wait(100)
@@ -115,7 +114,7 @@ Citizen.CreateThread(function()
                             else
                                 DoScreenFadeOut(1000)
                                 Wait(2000)
-                                SetEntityCoords(playerPed, TargetPos)
+                                SetEntityCoords(playerPed, Position)
                                 SetEntityHeading(playerPed, TargetHeading)
                                 FreezeEntityPosition(playerPed, true)
                                 DoScreenFadeIn(1000)
@@ -127,13 +126,11 @@ Citizen.CreateThread(function()
                 end
             end
         end
-        if sleep ~= 0 then
-            Citizen.Wait(sleep)
-        end
+        Citizen.Wait(sleep)
     end
 end)
 
-function DisplayHelpAlert(showstring)
+function DisplayHelpNotification(showstring)
     BeginTextCommandDisplayHelp('STRING');
     AddTextComponentSubstringPlayerName(showstring);
     EndTextCommandDisplayHelp(0, 0, 1, -1);
