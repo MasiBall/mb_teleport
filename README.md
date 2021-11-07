@@ -13,4 +13,5 @@ Simple teleport resource made by MasiBall
 
 # Usage
 - Add teleports through server.lua file.
+- Configure other stuff through config.lua file which is in client folder.
 - Press E on the marker, or on the teleport coords if it is a hidden teleport.
