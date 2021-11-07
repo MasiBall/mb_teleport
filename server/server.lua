@@ -1,18 +1,26 @@
 local serverconfig = {
-	Teleport1 = {
-        Position = vector3(-2090.63, 2638.05, 2.1),
-        TargetPosition = vector3(-2081.01, 2607.76, 2.1),
-        Heading = 15.65,
-        TargetHeading = 105.28,
+	Teleport = {
+        Position = vector3(-2108.47, 2704.27, 2.8),
+        TargetPosition = vector3(-2085.38, 2701.86, 2.8),
+        Heading = 174.78,
+        TargetHeading = 87.02,
         hidden = false,
         oneWay = false
 	},
-    TeleportTestXD = {
-        Position = vector3(-2138.26, 2811.21, 32.79),
-        TargetPosition = vector3(-2333.35, 2665.69, 2.78),
+    Teleport2 = {
+        Position = vector3(-2084.87, 2705.19, 2.8),
+        TargetPosition = vector3(-2107.78, 2709.03, 2.8),
         Heading = 196.66,
         TargetHeading = 153.99,
         hidden = true,
+        oneWay = false
+	},
+    Teleport3 = {
+        Position = vector3(-2084.77, 2708.76, 2.8),
+        TargetPosition = vector3(-2107.02, 2712.26, 2.8),
+        Heading = 196.66,
+        TargetHeading = 153.99,
+        hidden = false,
         oneWay = true
 	}
 }
